@@ -1,7 +1,6 @@
 import 'dotenv/config'
 
 import { PrismaClient } from '@prisma/client'
-import { url } from 'inspector'
 import { randomUUID } from 'crypto'
 import { execSync } from 'child_process'
 

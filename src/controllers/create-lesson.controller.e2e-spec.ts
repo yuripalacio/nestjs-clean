@@ -1,7 +1,7 @@
-import { AppModule } from "@/app.module"
-import { PrismaService } from "@/prisma/prisma.service"
-import { INestApplication } from "@nestjs/common"
-import { JwtService } from "@nestjs/jwt"
+import { AppModule } from '@/app.module'
+import { PrismaService } from '@/prisma/prisma.service'
+import { INestApplication } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
@@ -12,7 +12,7 @@ describe('Create lesson (E2E)', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule]
+      imports: [AppModule],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -28,10 +28,10 @@ describe('Create lesson (E2E)', () => {
       data: {
         name: 'John Doe',
         email: 'johndoe@example.com',
-        password: '123456'
-      }
+        password: '123456',
+      },
     })
-    
+
     const accessToken = jwt.sign({ sub: user.id })
 
     const response = await request(app.getHttpServer())
@@ -39,15 +39,15 @@ describe('Create lesson (E2E)', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         title: 'New lesson',
-        content: 'Lesson content'
+        content: 'Lesson content',
       })
 
     expect(response.statusCode).toBe(201)
 
     const lessonOnDatabase = await prisma.lesson.findFirst({
       where: {
-        title: 'New lesson'
-      }
+        title: 'New lesson',
+      },
     })
 
     expect(lessonOnDatabase).toBeTruthy()
