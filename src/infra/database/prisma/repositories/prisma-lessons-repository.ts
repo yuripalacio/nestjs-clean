@@ -24,22 +24,57 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async findBySlug(slug: string): Promise<Lesson | null> {
-    throw new Error('Method not implemented.')
+    const lesson = await this.prisma.lesson.findUnique({
+      where: {
+        slug,
+      },
+    })
+
+    if (!lesson) {
+      return null
+    }
+
+    return PrismaLessonMapper.toDomain(lesson)
   }
 
-  async findManyRecent(params: PaginationParams): Promise<Lesson[]> {
-    throw new Error('Method not implemented.')
+  async findManyRecent({ page }: PaginationParams): Promise<Lesson[]> {
+    const lessons = await this.prisma.lesson.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return lessons.map(PrismaLessonMapper.toDomain)
   }
 
   async create(lesson: Lesson): Promise<void> {
-    throw new Error('Method not implemented.')
+    const data = PrismaLessonMapper.toPrisma(lesson)
+
+    await this.prisma.lesson.create({
+      data,
+    })
   }
 
-  async save(lesson: Lesson): Promise<Lesson> {
-    throw new Error('Method not implemented.')
+  async save(lesson: Lesson): Promise<void> {
+    const data = PrismaLessonMapper.toPrisma(lesson)
+
+    await this.prisma.lesson.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
   }
 
   async delete(lesson: Lesson): Promise<void> {
-    throw new Error('Method not implemented.')
+    const data = PrismaLessonMapper.toPrisma(lesson)
+
+    await this.prisma.lesson.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }

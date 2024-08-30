@@ -32,7 +32,7 @@ export class CreateLessonController {
 
     await this.prisma.lesson.create({
       data: {
-        authorId: userId,
+        teacherId: userId,
         title,
         content,
         slug,

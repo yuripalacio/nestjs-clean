@@ -6,6 +6,6 @@ export interface LessonsRepository {
   findBySlug(slug: string): Promise<Lesson | null>
   findManyRecent(params: PaginationParams): Promise<Lesson[]>
   create(lesson: Lesson): Promise<void>
-  save(lesson: Lesson): Promise<Lesson>
+  save(lesson: Lesson): Promise<void>
   delete(lesson: Lesson): Promise<void>
 }

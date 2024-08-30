@@ -7,14 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
   createdAt DateTime @default(now()) @map("created_at")
+  role      UserRole @default(STUDENT)
 
-  Lessons Lesson[]
+  lessons Lesson[]
+  enrolls Enroll[]
 
   @@map("users")
 }
@@ -26,9 +34,24 @@ model Lesson {
   content   String
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
-  authorId  String    @map("author_id")
+  teacherId String    @map("teacher_id")
 
-  author User @relation(fields: [authorId], references: [id])
+  teacher User @relation(fields: [teacherId], references: [id])
+
+  enrolls Enroll[]
 
   @@map("lessons")
+}
+
+model Enroll {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  lessonId  String    @map("lesson_id")
+  studentId String    @map("author_id")
+
+  lesson  Lesson @relation(fields: [lessonId], references: [id])
+  student User   @relation(fields: [studentId], references: [id])
+
+  @@map("enrolls")
 }

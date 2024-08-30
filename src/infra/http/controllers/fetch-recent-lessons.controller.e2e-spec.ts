@@ -40,13 +40,13 @@ describe('Fetch recent lessons (E2E)', () => {
           title: 'lesson 01',
           slug: 'lesson-01',
           content: 'Lesson content',
-          authorId: user.id,
+          teacherId: user.id,
         },
         {
           title: 'lesson 02',
           slug: 'lesson-02',
           content: 'Lesson content',
-          authorId: user.id,
+          teacherId: user.id,
         },
       ],
     })
