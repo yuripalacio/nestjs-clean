@@ -22,7 +22,7 @@ export class FetchRecentLessonsController {
 
   @Get()
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
-    const perPage = 1
+    const perPage = 20
 
     const lessons = await this.prisma.lesson.findMany({
       take: perPage,
