@@ -11,7 +11,7 @@ export interface LessonProps {
   slug: Slug
   attachments: LessonAttachmentList
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Lesson extends AggregateRoot<LessonProps> {
