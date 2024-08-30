@@ -4,6 +4,7 @@ import { AuthenticateController } from './controllers/authenticate.controller'
 import { CreateLessonController } from './controllers/create-lesson.controller'
 import { FetchRecentLessonsController } from './controllers/fetch-recent-lessons.controller'
 import { DatabaseModule } from '../database/database.module'
+import { CreateLessonUseCase } from '@/domain/event/application/use-cases/create-lesson'
 
 @Module({
   imports: [DatabaseModule],
@@ -13,5 +14,6 @@ import { DatabaseModule } from '../database/database.module'
     CreateLessonController,
     FetchRecentLessonsController,
   ],
+  providers: [CreateLessonUseCase],
 })
 export class HttpModule {}

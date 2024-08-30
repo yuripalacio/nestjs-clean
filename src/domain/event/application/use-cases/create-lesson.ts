@@ -4,6 +4,7 @@ import { Lesson } from '../../enterprise/entities/lesson'
 import { Either, right } from '@/core/either'
 import { LessonAttachment } from '../../enterprise/entities/lesson-attachment'
 import { LessonAttachmentList } from '../../enterprise/entities/lesson-attachment-list'
+import { Injectable } from '@nestjs/common'
 
 interface CreateLessonUseCaseRequest {
   teacherId: string
@@ -19,6 +20,7 @@ type CreateLessonUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateLessonUseCase {
   constructor(private lessonsRepository: LessonsRepository) {}
 

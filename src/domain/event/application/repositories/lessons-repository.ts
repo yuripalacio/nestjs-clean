@@ -1,11 +1,11 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Lesson } from '../../enterprise/entities/lesson'
 
-export interface LessonsRepository {
-  findById(id: string): Promise<Lesson | null>
-  findBySlug(slug: string): Promise<Lesson | null>
-  findManyRecent(params: PaginationParams): Promise<Lesson[]>
-  create(lesson: Lesson): Promise<void>
-  save(lesson: Lesson): Promise<void>
-  delete(lesson: Lesson): Promise<void>
+export abstract class LessonsRepository {
+  abstract findById(id: string): Promise<Lesson | null>
+  abstract findBySlug(slug: string): Promise<Lesson | null>
+  abstract findManyRecent(params: PaginationParams): Promise<Lesson[]>
+  abstract create(lesson: Lesson): Promise<void>
+  abstract save(lesson: Lesson): Promise<void>
+  abstract delete(lesson: Lesson): Promise<void>
 }
