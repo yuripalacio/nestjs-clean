@@ -1,11 +1,11 @@
-import { AppModule } from '@/app.module'
-import { PrismaService } from '@/prisma/prisma.service'
+import { AppModule } from '@/infra/app.module'
+import { PrismaService } from '@/infra/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Create lesson (E2E)', () => {
+describe('Fetch recent lessons (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -23,7 +23,7 @@ describe('Create lesson (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /lessons', async () => {
+  test('[GET] /lessons', async () => {
     const user = await prisma.user.create({
       data: {
         name: 'John Doe',
@@ -34,22 +34,34 @@ describe('Create lesson (E2E)', () => {
 
     const accessToken = jwt.sign({ sub: user.id })
 
-    const response = await request(app.getHttpServer())
-      .post('/lessons')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        title: 'New lesson',
-        content: 'Lesson content',
-      })
-
-    expect(response.statusCode).toBe(201)
-
-    const lessonOnDatabase = await prisma.lesson.findFirst({
-      where: {
-        title: 'New lesson',
-      },
+    await prisma.lesson.createMany({
+      data: [
+        {
+          title: 'lesson 01',
+          slug: 'lesson-01',
+          content: 'Lesson content',
+          authorId: user.id,
+        },
+        {
+          title: 'lesson 02',
+          slug: 'lesson-02',
+          content: 'Lesson content',
+          authorId: user.id,
+        },
+      ],
     })
 
-    expect(lessonOnDatabase).toBeTruthy()
+    const response = await request(app.getHttpServer())
+      .get('/lessons')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send()
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      lessons: [
+        expect.objectContaining({ title: 'lesson 01' }),
+        expect.objectContaining({ title: 'lesson 02' }),
+      ],
+    })
   })
 })
