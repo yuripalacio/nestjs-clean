@@ -6,6 +6,7 @@ import { envSchema } from './env'
 import { AuthModule } from './auth/auth.module'
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { CreateLessonController } from './controllers/create-lesson.controller'
+import { FetchRecentLessonsController } from './controllers/fetch-recent-lessons.controller'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CreateLessonController } from './controllers/create-lesson.controller'
     CreateAccountController,
     AuthenticateController,
     CreateLessonController,
+    FetchRecentLessonsController,
   ],
   providers: [PrismaService],
 })

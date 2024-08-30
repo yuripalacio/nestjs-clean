@@ -30,6 +30,13 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "New Lesson",
+  "title": "New Lesson 2",
   "content": "Lesson content"
 }
+
+###
+
+# @name fetch_recent_lessons
+GET {{baseUrl}}/lessons?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
