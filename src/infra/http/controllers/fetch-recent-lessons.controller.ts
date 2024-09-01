@@ -3,6 +3,7 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { FetchRecentLessonsUseCase } from '@/domain/event/application/use-cases/fetch-recent-lessons'
+import { LessonPresenter } from '../presenters/lesson-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -22,10 +23,16 @@ export class FetchRecentLessonsController {
 
   @Get()
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
-    const lessons = await this.fetchRecentLessons.execute({
+    const result = await this.fetchRecentLessons.execute({
       page,
     })
 
-    return { lessons }
+    if (result.isLeft()) {
+      throw new Error()
+    }
+
+    const lessons = result.value.lessons
+
+    return { lessons: lessons.map(LessonPresenter.toHTTP) }
   }
 }
