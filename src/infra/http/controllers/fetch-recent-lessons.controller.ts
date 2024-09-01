@@ -1,8 +1,8 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { z } from 'zod'
+import { FetchRecentLessonsUseCase } from '@/domain/event/application/use-cases/fetch-recent-lessons'
 
 const pageQueryParamSchema = z
   .string()
@@ -18,18 +18,12 @@ type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 @Controller('/lessons')
 @UseGuards(JwtAuthGuard)
 export class FetchRecentLessonsController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private fetchRecentLessons: FetchRecentLessonsUseCase) {}
 
   @Get()
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
-    const perPage = 20
-
-    const lessons = await this.prisma.lesson.findMany({
-      take: perPage,
-      skip: (page - 1) * perPage,
-      orderBy: {
-        createdAt: 'desc',
-      },
+    const lessons = await this.fetchRecentLessons.execute({
+      page,
     })
 
     return { lessons }

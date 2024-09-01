@@ -1,6 +1,7 @@
 import { LessonsRepository } from '../repositories/lessons-repository'
 import { Lesson } from '../../enterprise/entities/lesson'
 import { Either, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface FetchRecentLessonsUseCaseRequest {
   page: number
@@ -13,6 +14,7 @@ type FetchRecentLessonsUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class FetchRecentLessonsUseCase {
   constructor(private lessonsRepository: LessonsRepository) {}
 

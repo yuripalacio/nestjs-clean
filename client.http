@@ -30,7 +30,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "New Lesson 2",
+  "title": "New Lesson",
   "content": "Lesson content"
 }
 
