@@ -4,6 +4,8 @@ import { Optional } from '@/core/types/optional'
 
 interface StudentProps {
   name: string
+  email: string
+  password: string
   createdAt: Date
   updatedAt?: Date
 }
@@ -16,6 +18,14 @@ export class Student extends Entity<StudentProps> {
   set name(name: string) {
     this.name = name
     this.touch()
+  }
+
+  get email() {
+    return this.props.email
+  }
+
+  get password() {
+    return this.props.password
   }
 
   get createdAt() {
