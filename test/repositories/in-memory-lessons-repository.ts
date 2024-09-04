@@ -38,12 +38,10 @@ export class InMemoryLessonsRepository implements LessonsRepository {
     return lessons
   }
 
-  async save(lesson: Lesson): Promise<Lesson> {
+  async save(lesson: Lesson): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === lesson.id)
 
     this.items[itemIndex] = lesson
-
-    return lesson
   }
 
   async create(lesson: Lesson): Promise<void> {
