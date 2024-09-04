@@ -4,6 +4,8 @@ import { PrismaLessonAttachmentsRepository } from './prisma/repositories/prisma-
 import { PrismaLessonsRepository } from './prisma/repositories/prisma-lessons-repository'
 import { PrismaEnrollsRepository } from './prisma/repositories/prisma-enrolls-repository'
 import { LessonsRepository } from '@/domain/event/application/repositories/lessons-repository'
+import { StudentsRepository } from '@/domain/event/application/repositories/students-repository'
+import { PrismaStudentsRepository } from './prisma/repositories/prisma-students-repository'
 
 @Module({
   providers: [
@@ -13,6 +15,10 @@ import { LessonsRepository } from '@/domain/event/application/repositories/lesso
       provide: LessonsRepository,
       useClass: PrismaLessonsRepository,
     },
+    {
+      provide: StudentsRepository,
+      useClass: PrismaStudentsRepository,
+    },
     PrismaEnrollsRepository,
   ],
   exports: [
@@ -20,6 +26,7 @@ import { LessonsRepository } from '@/domain/event/application/repositories/lesso
     PrismaLessonAttachmentsRepository,
     LessonsRepository,
     PrismaEnrollsRepository,
+    StudentsRepository,
   ],
 })
 export class DatabaseModule {}
