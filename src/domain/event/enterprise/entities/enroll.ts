@@ -7,7 +7,7 @@ export interface EnrollProps {
   lessonId: UniqueEntityId
   studentId: UniqueEntityId
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Enroll extends AggregateRoot<EnrollProps> {

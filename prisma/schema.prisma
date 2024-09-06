@@ -38,7 +38,8 @@ model Lesson {
 
   teacher User @relation(fields: [teacherId], references: [id])
 
-  enrolls Enroll[]
+  enrolls     Enroll[]
+  attachments Attachment[]
 
   @@map("lessons")
 }
@@ -54,4 +55,15 @@ model Enroll {
   student User   @relation(fields: [studentId], references: [id])
 
   @@map("enrolls")
+}
+
+model Attachment {
+  id       String  @id @default(uuid())
+  title    String
+  url      String
+  lessonId String? @map("lesson_id")
+
+  lesson Lesson? @relation(fields: [lessonId], references: [id])
+
+  @@map("attachments")
 }
