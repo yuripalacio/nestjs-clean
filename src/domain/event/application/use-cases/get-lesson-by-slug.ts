@@ -1,6 +1,7 @@
 import { LessonsRepository } from '../repositories/lessons-repository'
 import { Lesson } from '../../enterprise/entities/lesson'
 import { Either, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface GetLessonBySlugUseCaseRequest {
   slug: string
@@ -13,6 +14,7 @@ type GetLessonBySlugUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class GetLessonBySlugUseCase {
   constructor(private lessonsRepository: LessonsRepository) {}
 
